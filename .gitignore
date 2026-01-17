@@ -4,6 +4,7 @@
 .DS_Store
 Thumbs.db
 desktop.ini
+.history/
 
 # ===============================
 # Editor / IDE
@@ -11,6 +12,7 @@ desktop.ini
 .vscode/*
 !.vscode/settings.json
 !.vscode/extensions.json
+
 
 .idea/
 *.swp
