@@ -1,49 +1,62 @@
 import os
 
-def create_structure(base_path):
-    folders = [
-        "01_python_basics/notebooks",
-        "01_python_basics/scripts",
+def touch(file_path):
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+    with open(file_path, "a"):
+        pass
 
-        "02_math_for_ml/linear_algebra",
-        "02_math_for_ml/probability_statistics",
-        "02_math_for_ml/calculus",
+def create_ml_dl_structure(base_path):
+    paths = [
+        # basics
+        "basics/python/__init__.py",
+        "basics/numpy/__init__.py",
+        "basics/pandas/__init__.py",
+        "basics/matplotlib/__init__.py",
 
-        "03_machine_learning/supervised/linear_regression",
-        "03_machine_learning/supervised/logistic_regression",
-        "03_machine_learning/supervised/decision_trees",
-        "03_machine_learning/unsupervised/kmeans",
-        "03_machine_learning/unsupervised/pca",
-        "03_machine_learning/evaluation_metrics",
+        # math
+        "math/linear_algebra/notes.md",
+        "math/probability/notes.md",
+        "math/calculus/notes.md",
 
-        "04_deep_learning/neural_network_basics",
-        "04_deep_learning/cnn",
-        "04_deep_learning/rnn",
+        # machine learning
+        "machine_learning/supervised/linear_regression/model.py",
+        "machine_learning/supervised/logistic_regression/model.py",
+        "machine_learning/supervised/decision_trees/model.py",
+        "machine_learning/unsupervised/kmeans/model.py",
+        "machine_learning/unsupervised/pca/model.py",
+        "machine_learning/evaluation/metrics.py",
 
-        "datasets",
-        "experiments",
-        "notes"
+        # deep learning
+        "deep_learning/fundamentals/nn_from_scratch.py",
+        "deep_learning/cnn/cnn_model.py",
+        "deep_learning/rnn/rnn_model.py",
+
+        # datasets & notebooks
+        "datasets/README.md",
+        "notebooks/experiments.ipynb",
+
+        # experiments & notes
+        "experiments/sandbox.py",
+        "notes/learning_log.md",
+        "notes/roadmap.md",
+
+        # root files
+        "requirements.txt",
+        "README.md",
     ]
 
-    for folder in folders:
-        path = os.path.join(base_path, folder)
-        os.makedirs(path, exist_ok=True)
+    for relative_path in paths:
+        full_path = os.path.join(base_path, relative_path)
+        touch(full_path)
 
-    # Create some starter files
-    open(os.path.join(base_path, "README.md"), "a").close()
-    open(os.path.join(base_path, "requirements.txt"), "a").close()
-    open(os.path.join(base_path, "notes", "learning_log.md"), "a").close()
-
-    print("\n✅ ML/DL learning journey structure created successfully!")
+    print("\n✅ ML/DL detailed structure created successfully")
     print(f"📁 Location: {base_path}")
 
-
 if __name__ == "__main__":
-    print("📌 ML & DL Learning Journey Folder Generator\n")
-
-    base_path = input("Enter the full path where you want to create the project:\n> ").strip()
+    print("📦 ML/DL Learning Journey Structure Generator\n")
+    base_path = input("Enter the full project path:\n> ").strip()
 
     if not base_path:
-        print("❌ Path cannot be empty.")
+        print("❌ Invalid path")
     else:
-        create_structure(base_path)
+        create_ml_dl_structure(base_path)
