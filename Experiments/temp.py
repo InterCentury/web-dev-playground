@@ -1,12 +1,56 @@
 import os
 
-def touch(file_path):
-    os.makedirs(os.path.dirname(file_path), exist_ok=True)
-    with open(file_path, "a"):
-        pass
+PLACEHOLDER_NAME = "placeholder.txt"
+
+def ensure_folder_with_txt(folder_path):
+    os.makedirs(folder_path, exist_ok=True)
+    txt_path = os.path.join(folder_path, PLACEHOLDER_NAME)
+    open(txt_path, "a").close()
+
+def create_file(path):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    open(path, "a").close()
 
 def create_ml_dl_structure(base_path):
-    paths = [
+    folders = [
+        # basics
+        "basics",
+        "basics/python",
+        "basics/numpy",
+        "basics/pandas",
+        "basics/matplotlib",
+
+        # math
+        "math",
+        "math/linear_algebra",
+        "math/probability",
+        "math/calculus",
+
+        # machine learning
+        "machine_learning",
+        "machine_learning/supervised",
+        "machine_learning/supervised/linear_regression",
+        "machine_learning/supervised/logistic_regression",
+        "machine_learning/supervised/decision_trees",
+        "machine_learning/unsupervised",
+        "machine_learning/unsupervised/kmeans",
+        "machine_learning/unsupervised/pca",
+        "machine_learning/evaluation",
+
+        # deep learning
+        "deep_learning",
+        "deep_learning/fundamentals",
+        "deep_learning/cnn",
+        "deep_learning/rnn",
+
+        # misc
+        "datasets",
+        "notebooks",
+        "experiments",
+        "notes",
+    ]
+
+    files = [
         # basics
         "basics/python/__init__.py",
         "basics/numpy/__init__.py",
@@ -31,32 +75,35 @@ def create_ml_dl_structure(base_path):
         "deep_learning/cnn/cnn_model.py",
         "deep_learning/rnn/rnn_model.py",
 
-        # datasets & notebooks
+        # misc
         "datasets/README.md",
         "notebooks/experiments.ipynb",
-
-        # experiments & notes
         "experiments/sandbox.py",
         "notes/learning_log.md",
         "notes/roadmap.md",
 
-        # root files
+        # root
         "requirements.txt",
         "README.md",
     ]
 
-    for relative_path in paths:
-        full_path = os.path.join(base_path, relative_path)
-        touch(full_path)
+    # Create folders + placeholder.txt
+    for folder in folders:
+        ensure_folder_with_txt(os.path.join(base_path, folder))
 
-    print("\n✅ ML/DL detailed structure created successfully")
+    # Create files
+    for file in files:
+        create_file(os.path.join(base_path, file))
+
+    print("\n✅ Structure created successfully")
+    print("📄 Every folder contains an empty placeholder.txt")
     print(f"📁 Location: {base_path}")
 
 if __name__ == "__main__":
     print("📦 ML/DL Learning Journey Structure Generator\n")
-    base_path = input("Enter the full project path:\n> ").strip()
+    base_path = input("Enter full project path:\n> ").strip()
 
     if not base_path:
-        print("❌ Invalid path")
+        print("❌ Path cannot be empty")
     else:
         create_ml_dl_structure(base_path)
