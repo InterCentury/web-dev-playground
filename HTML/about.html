@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us — Interactive Demo</title>
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --card: #121826;
+      --accent: #6cf2c2;
+      --accent-2: #6aa9ff;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --error: #ff6b6b;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(1200px 600px at top right, #13203a, transparent), var(--bg);
+      color: var(--text);
+      display: grid;
+      place-items: center;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Left side */
+    .info {
+      padding: 2.5rem;
+      background: linear-gradient(160deg, #111827, #0b1220);
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .info::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      background: linear-gradient(120deg, transparent, var(--accent), transparent);
+      opacity: 0.15;
+      pointer-events: none;
+    }
+
+    .info h1 {
+      font-size: 2.4rem;
+      margin: 0 0 1rem;
+      line-height: 1.2;
+    }
+
+    .info p {
+      color: var(--muted);
+      max-width: 40ch;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .stat {
+      background: rgba(255,255,255,0.04);
+      border-radius: 14px;
+      padding: 1rem;
+      text-align: center;
+      transition: transform .3s ease;
+    }
+
+    .stat:hover {
+      transform: translateY(-4px);
+    }
+
+    .stat strong {
+      font-size: 1.4rem;
+      color: var(--accent);
+    }
+
+    .stat span {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* Right side form */
+    .card {
+      background: var(--card);
+      border-radius: 22px;
+      padding: 2.5rem;
+      box-shadow: 0 30px 80px rgba(0,0,0,.6);
+      position: relative;
+    }
+
+    .card h2 {
+      margin-top: 0;
+      font-size: 1.8rem;
+    }
+
+    form {
+      display: grid;
+      gap: 1.4rem;
+      margin-top: 1.5rem;
+    }
+
+    .field {
+      position: relative;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      padding: 1.1rem 1rem;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
+      color: var(--text);
+      outline: none;
+      font-size: 0.95rem;
+      transition: border .25s ease, box-shadow .25s ease;
+    }
+
+    .field textarea {
+      resize: none;
+      min-height: 120px;
+    }
+
+    .field label {
+      position: absolute;
+      top: 50%;
+      left: 1rem;
+      transform: translateY(-50%);
+      font-size: 0.85rem;
+      color: var(--muted);
+      pointer-events: none;
+      transition: .25s ease;
+      background: var(--card);
+      padding: 0 .4rem;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(108,242,194,.15);
+    }
+
+    .field input:not(:placeholder-shown) + label,
+    .field textarea:not(:placeholder-shown) + label,
+    .field input:focus + label,
+    .field textarea:focus + label {
+      top: -0.45rem;
+      font-size: 0.7rem;
+      color: var(--accent);
+    }
+
+    button {
+      margin-top: .5rem;
+      border: none;
+      padding: 1.1rem;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #081015;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(108,242,194,.35);
+    }
+
+    .status {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      min-height: 1.2em;
+    }
+
+    /* Success animation */
+    .success {
+      color: var(--accent);
+      animation: pop .4s ease;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(.9); opacity: .5; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Cursor glow */
+    .glow {
+      position: fixed;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      pointer-events: none;
+      background: radial-gradient(circle, rgba(108,242,194,.15), transparent 60%);
+      transform: translate(-50%, -50%);
+      z-index: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow" id="glow"></div>
+
+  <main class="container">
+    <section class="info">
+      <h1>Let’s build something<br>unexpected ✨</h1>
+      <p>This is a dummy contact page — but designed like a real product. Smooth, modern, and slightly over-engineered 😉</p>
+
+      <div class="stats">
+        <div class="stat">
+          <strong>24/7</strong>
+          <span>Response</span>
+        </div>
+        <div class="stat">
+          <strong>99%</strong>
+          <span>Uptime</span>
+        </div>
+        <div class="stat">
+          <strong>∞</strong>
+          <span>Ideas</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Contact us</h2>
+
+      <form id="contactForm">
+        <div class="field">
+          <input type="text" id="name" placeholder=" " required />
+          <label for="name">Your name</label>
+        </div>
+
+        <div class="field">
+          <input type="email" id="email" placeholder=" " required />
+          <label for="email">Email address</label>
+        </div>
+
+        <div class="field">
+          <textarea id="message" placeholder=" " required></textarea>
+          <label for="message">Your message</label>
+        </div>
+
+        <button type="submit">Send message</button>
+        <div class="status" id="status"></div>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    // Cursor glow follow
+    const glow = document.getElementById('glow');
+    window.addEventListener('mousemove', e => {
+      glow.style.left = e.clientX + 'px';
+      glow.style.top = e.clientY + 'px';
+    });
+
+    // Fake submit interaction
+    const form = document.getElementById('contactForm');
+    const status = document.getElementById('status');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      status.textContent = 'Sending…';
+      status.className = 'status';
+
+      setTimeout(() => {
+        status.textContent = 'Message sent successfully 🚀 (not really)';
+        status.classList.add('success');
+        form.reset();
+      }, 1200);
+    });
+  </script>
+</body>
+</html>
