@@ -64,7 +64,3 @@ Progress matters more than perfection.
 
 ---
 
-## 🌱 Final Thought
-
-Every developer starts somewhere.  
-This is my **somewhere**.
